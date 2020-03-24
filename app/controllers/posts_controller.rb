@@ -1,10 +1,18 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!, only: [:own_posts, :new, :edit, :create, :update, :destroy]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+
 
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+      @posts = Post.all
+  end
+
+  # GET /own-posts
+  # GET /own-posts.json
+  def own_posts
+    @posts = current_user.posts
   end
 
   # GET /posts/1
@@ -24,7 +32,11 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.new(post_params)
+    if current_user
+      @post = current_user.posts.new(post_params)
+    else
+      @page = Post.new(post_params)
+    end
 
     respond_to do |format|
       if @post.save
@@ -69,6 +81,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:name, :description)
+      params.require(:post).permit(:name, :description, :picture, :user_id, :can_delete)
     end
 end

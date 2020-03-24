@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Posts</h1>
+<h1>Your Posts</h1>
 
 <table>
   <thead>
@@ -18,9 +16,7 @@
         <td><%= post.description %></td>
         <td><%= link_to 'Show', post %></td>
         <td><%= link_to 'Edit', edit_post_path(post) %></td>
-        <% if can_delete(post) %>
-          <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <%end%>
+        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
